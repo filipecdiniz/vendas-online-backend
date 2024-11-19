@@ -1,0 +1,10 @@
+banco de dados:
+    - typeorm
+    - pg
+    - @nestjs/typeorm
+    
+@nestjs/config -> é uma ferramenta poderosa para gerenciar configurações de uma aplicação de forma centralizada e flexível, especialmente quando se trata de variáveis de ambiente.
+class-validator
+class-transformer
+bcrypt
+types@bcrypt

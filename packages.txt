@@ -8,3 +8,4 @@ class-validator
 class-transformer
 bcrypt
 types@bcrypt
+chache-manager -> gerenciar o cache

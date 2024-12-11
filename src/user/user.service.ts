@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { HttpException, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateUserDTO } from "./DTOs/CreateUserDTO.dto";
 import { UserEntity } from "./Entities/user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -55,5 +55,15 @@ export class UserService {
                 }
             }
         })
+    }
+
+    async findUserByEmail(email: string): Promise<UserEntity> {
+        const user = await this.userRepository.findOne({
+            where: { email }
+        })
+
+        if(!user) throw new HttpException(`Email ${email} not found!`, 400)
+
+        return user
     }
 }

@@ -11,7 +11,7 @@ export class UserService {
     constructor(
         @InjectRepository(UserEntity)
         private readonly userRepository: Repository<UserEntity>
-    ){}
+    ) { }
 
     async createUser(createUserDTO: CreateUserDTO): Promise<UserEntity> {
         const salt = 10
@@ -24,7 +24,7 @@ export class UserService {
         })
     }
 
-    async getAllUsers(){
+    async getAllUsers() {
         return this.userRepository.find();
     }
 
@@ -32,10 +32,10 @@ export class UserService {
 
         const user = await this.userRepository.findOne({
             where: {
-                id : userId
+                id: userId
             }
         })
-        if(!user) {
+        if (!user) {
             throw new NotFoundException(`User ID: ${userId} not found!`)
         }
 
@@ -43,11 +43,17 @@ export class UserService {
     }
 
     async findUserByIdUsingRelations(userId: number): Promise<UserEntity> {
-        return await this.userRepository.findOne({
+        return this.userRepository.findOne({
             where: {
                 id: userId
             },
-            relations: ['addresses']
+            relations: {
+                addresses: {
+                    city: {
+                        state: true
+                    }
+                }
+            }
         })
     }
 }

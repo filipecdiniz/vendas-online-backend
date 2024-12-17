@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateAddressDTO } from './DTOs/CreateAddressDTO.dto';
 import { AddressService } from './address.service';
 import { AddressEntity } from './entities/address.entity';

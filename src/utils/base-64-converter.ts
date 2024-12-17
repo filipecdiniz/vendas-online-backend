@@ -1,9 +1,9 @@
 import { LoginPayloadDTO } from "src/auth/DTOs/LoginPayloadDTO.dto";
 
 export function authorizationToLoginPayload(authorization: string): LoginPayloadDTO | any{
-    const authorizationSplited = authorization.split('.')
+    const authorizationSplited = authorization.split('.');
     
-    if(authorizationSplited.length < 3 || !authorizationSplited[1]) return undefined
+    if(authorizationSplited.length < 3 || !authorizationSplited[1]) return undefined;
 
-    return JSON.parse(Buffer.from(authorizationSplited[1], 'base64').toString())
+    return JSON.parse(Buffer.from(authorizationSplited[1], 'base64').toString());
 }

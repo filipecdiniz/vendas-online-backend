@@ -24,7 +24,7 @@ export class CategoryService {
     async createCategory(createCategoryDTO: CreateCategoryDTO): Promise<CategoryEntity> {
         const categoryExists = await this.findCategoryByName(createCategoryDTO.name).catch(() => undefined);
 
-        if(categoryExists){
+        if (categoryExists) {
             throw new BadRequestException(`Category name ${createCategoryDTO.name} alredy exists!`);
         };
 
@@ -37,9 +37,21 @@ export class CategoryService {
         const category = this.categoryRepository.findOne({
             where: { name }
         })
-        
-        if(!category){
+
+        if (!category) {
             throw new NotFoundException(`Category name ${name} doesn't exists!`);
+        }
+
+        return category
+    }
+
+    async findCategoryById(id: number): Promise<CategoryEntity> {
+        const category = await this.categoryRepository.findOne({
+            where: {id}
+        })
+
+        if(!category){
+            throw new NotFoundException(`Doesn't exist a category if id ${id}`)
         }
 
         return category

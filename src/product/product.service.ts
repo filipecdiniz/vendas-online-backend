@@ -2,12 +2,16 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { ProductEntity } from './Entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateProductDTO } from './DTOs/CreateProductDTO.dto';
+import { ReturnProductDTO } from './DTOs/ReturnProductDTO.dto';
+import { CategoryService } from 'src/category/category.service';
 
 @Injectable()
 export class ProductService {
     constructor(
         @InjectRepository(ProductEntity)
-        private readonly productRepository: Repository<ProductEntity>
+        private readonly productRepository: Repository<ProductEntity>,
+        private readonly categoryService: CategoryService
     ) { }
 
     async findAllProducts(): Promise<ProductEntity[]>{
@@ -18,5 +22,13 @@ export class ProductService {
         }
 
         return products
+    }
+
+    async createProduct(createProductDTO: CreateProductDTO){
+        await this.categoryService.findCategoryById(createProductDTO.categoryId);
+        
+        return await this.productRepository.save({
+            ...createProductDTO,
+        })
     }
 }

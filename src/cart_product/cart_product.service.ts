@@ -4,13 +4,15 @@ import { CartProductEntity } from './Entities/cart_product.entity';
 import { Repository } from 'typeorm';
 import { InsertProductDTO } from 'src/cart/DTOs/InsertProduct.dto';
 import { CartEntity } from 'src/cart/Entities/cart.entity';
+import { ProductService } from 'src/product/product.service';
 
 
 @Injectable()
 export class CartProductService {
     constructor(
         @InjectRepository(CartProductEntity)
-        private readonly cartProductRepository: Repository<CartProductEntity>
+        private readonly cartProductRepository: Repository<CartProductEntity>,
+        private readonly productService: ProductService
     ) { }
 
     async createProductInCart(insertProductDTO: InsertProductDTO, cartId: number) {
@@ -35,13 +37,16 @@ export class CartProductService {
     }
 
     async insertProduct(insertProductDTO: InsertProductDTO, cart: CartEntity): Promise<CartProductEntity> {
-        const cartProduct = await this.verifyProductInCart(insertProductDTO.productId, cart.id).catch(async () => undefined)
+
+        //this code returns an error if productID doesn't exists in database.
+        await this.productService.findProductById(insertProductDTO.productId);
+        const cartProduct = await this.verifyProductInCart(insertProductDTO.productId, cart.id).catch(async () => undefined);
 
         if (!cartProduct) {
-            return await this.createProductInCart(insertProductDTO, cart.id)
+            return await this.createProductInCart(insertProductDTO, cart.id);
         }
 
-        return this.cartProductRepository.save({
+        return await this.cartProductRepository.save({
             ...cartProduct,
             amount: cartProduct.amount += insertProductDTO.amount
         })

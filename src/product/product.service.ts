@@ -29,7 +29,7 @@ export class ProductService {
         const product: ProductEntity | undefined = await this.productRepository.findOne({
             where: { id: productId }
         });
-
+        
         if(!product) throw new NotFoundException(`No Product id ${productId} found!`);
 
         return product;

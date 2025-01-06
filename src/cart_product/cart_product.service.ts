@@ -67,7 +67,7 @@ export class CartProductService {
         })
     }
 
-    async deleteProductCart(productId: number, cartId: number): Promise<DeleteResult> {
+    async deleteCartProduct(productId: number, cartId: number): Promise<DeleteResult> {
         return this.cartProductRepository.delete({ productId, cartId });
     }
 }

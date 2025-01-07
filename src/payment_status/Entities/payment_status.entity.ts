@@ -1,16 +1,22 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 
-@Entity({name: 'payment_status'})
+@Entity({ name: 'payment_status' })
 export class PaymentStatusEntity {
-    @PrimaryGeneratedColumn(`rowid`)
+    @PrimaryGeneratedColumn('rowid')
     id: number;
 
-    @Column({name: 'name', nullable: false})
+    @Column({ name: 'name', nullable: false })
     name: string;
 
-    @CreateDateColumn({name: 'created_at', nullable: false})
+    @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
 
-    @UpdateDateColumn({name: 'updatedAt', nullable: false})
+    @UpdateDateColumn({ name: 'updated_at' })
     updatedAt: Date;
 }

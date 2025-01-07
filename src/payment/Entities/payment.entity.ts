@@ -1,10 +1,13 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, TableInheritance, UpdateDateColumn } from "typeorm";
 
 @Entity({ name: 'payment' })
-@TableInheritance({ column: { name: 'type', type: 'varchar' } })
+@TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export abstract class PaymentEntity {
     @PrimaryGeneratedColumn('rowid')
     id: number;
+
+    @Column({ name: 'status_id', nullable: false })
+    statusId: number;
 
     @Column({ name: 'price', nullable: false })
     price: number;
@@ -18,9 +21,9 @@ export abstract class PaymentEntity {
     @Column({ name: 'type', nullable: false })
     type: string;
 
-    @CreateDateColumn({ name: 'created_at', nullable: false })
+    @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
 
-    @CreateDateColumn({ name: 'updated_at', nullable: false })
+    @UpdateDateColumn({ name: 'updated_at' })
     updatedAt: Date;
 }

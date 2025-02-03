@@ -6,7 +6,6 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { CreateCategoryDTO } from './DTOs/CreateCategory.dto';
 import { CategoryEntity } from './Entities/category.entity';
 
-@Roles(UserType.Admin, UserType.User)
 @Controller('category')
 export class CategoryController {
     constructor(private readonly categoryService: CategoryService) { }

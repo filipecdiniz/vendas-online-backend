@@ -13,8 +13,9 @@ import { UserType } from './enum/user-type.enum';
 export class UserController {
     constructor(private readonly UserService: UserService) { }
 
-    @Get('')
-    async getAllUsers(): Promise<ReturnUserDTO[]> {
+    @Get('all')
+    @Roles(UserType.Admin)
+    async getAllUsers(@UserID() admin: any): Promise<ReturnUserDTO[]> {
         return (await this.UserService.getAllUsers()).map(
             (userEntity) => new ReturnUserDTO(userEntity)
         );
@@ -37,5 +38,12 @@ export class UserController {
     @UsePipes(ValidationPipe)
     async updateUserPassword(@UserID() userId: number, @Body() updatePasswordDTO: UpdatePasswordDTO): Promise<UserEntity> {
         return await this.UserService.updateUserPassword(updatePasswordDTO, userId);
+    }
+
+    @Get()
+    @Roles(UserType.Admin, UserType.User)
+    @UsePipes(ValidationPipe)
+    async getUserInformations(@UserID() userId: number): Promise<ReturnUserDTO> {
+        return new ReturnUserDTO(await this.UserService.findUserByIdUsingRelations(userId))
     }
 }
